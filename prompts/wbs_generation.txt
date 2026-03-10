@@ -1,0 +1,10 @@
+Context (RAG): {{docs}}
+Slots:
+{"style": "artifact-driven", "lifecycle": "Waterfall"}
+
+Produce a WBS in {{style}} style for {{lifecycle}}.
+Depth: 2 levels, leaves ≤ 5 days effort.
+Output both:
+1) JSON array with fields: id, parent_id, name, type[deliverable|activity], notes
+2) Numbered outline (1., 1.1., …)
+Then list 5 likely dependencies.

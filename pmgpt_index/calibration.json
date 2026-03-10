@@ -1,0 +1,43 @@
+{
+  "mode": "rule_based",
+  "base_rates": {},
+  "rule_based_hours": {
+    "small": {
+      "requirements": 25.0,
+      "design": 40.0,
+      "implementation": 80.0
+    },
+    "medium": {
+      "requirements": 40.0,
+      "design": 65.0,
+      "implementation": 120.0
+    },
+    "large": {
+      "requirements": 55.0,
+      "design": 90.0,
+      "implementation": 160.0
+    }
+  },
+  "size_thresholds": {
+    "small": 10.0,
+    "medium": 20.0
+  },
+  "complexity_signals": [
+    {
+      "feature": "screens",
+      "threshold": 10,
+      "bonus": 0.15
+    },
+    {
+      "feature": "integrations",
+      "threshold": 5,
+      "bonus": 0.2
+    },
+    {
+      "feature": "apis",
+      "threshold": 5,
+      "bonus": 0.1
+    }
+  ],
+  "note": "Rule-based estimation (only 4 labeled projects available, need 8+ for data-driven mode). Edit RULE_BASE_HOURS in rag_minimal.py to tune defaults."
+}

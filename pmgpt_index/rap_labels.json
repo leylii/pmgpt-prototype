@@ -1,0 +1,22 @@
+{
+  "2024_Group1_ex.pdf": {
+    "requirements_hours": 80,
+    "design_hours": 130,
+    "implementation_hours": 270
+  },
+  "2024_Group2_ex.pdf": {
+    "requirements_hours": 65,
+    "design_hours": 110,
+    "implementation_hours": 215
+  },
+  "2024_Group3_ex.pdf": {
+    "requirements_hours": 60,
+    "design_hours": 100,
+    "implementation_hours": 200
+  },
+  "2024_Group4_ex.pdf": {
+    "requirements_hours": 100,
+    "design_hours": 160,
+    "implementation_hours": 320
+  }
+}

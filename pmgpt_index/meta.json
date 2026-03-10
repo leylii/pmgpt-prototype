@@ -1,0 +1,163 @@
+[
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 0,
+    "section": "requirements",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 1,
+    "section": "requirements",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 2,
+    "section": "requirements",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 3,
+    "section": "requirements",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 4,
+    "section": "implementation",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 5,
+    "section": "requirements",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 6,
+    "section": "design",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "PM_Textbook2.pdf",
+    "doc_id": 0,
+    "chunk_id": 7,
+    "section": "requirements",
+    "doc_pages": 5.18
+  },
+  {
+    "source": "2024_Group1_ex.pdf",
+    "doc_id": 1,
+    "chunk_id": 0,
+    "section": "implementation",
+    "doc_pages": 1.45
+  },
+  {
+    "source": "2024_Group1_ex.pdf",
+    "doc_id": 1,
+    "chunk_id": 1,
+    "section": "design",
+    "doc_pages": 1.45
+  },
+  {
+    "source": "2024_Group2_ex.pdf",
+    "doc_id": 2,
+    "chunk_id": 0,
+    "section": "implementation",
+    "doc_pages": 3.05
+  },
+  {
+    "source": "2024_Group2_ex.pdf",
+    "doc_id": 2,
+    "chunk_id": 1,
+    "section": "implementation",
+    "doc_pages": 3.05
+  },
+  {
+    "source": "2024_Group2_ex.pdf",
+    "doc_id": 2,
+    "chunk_id": 2,
+    "section": "design",
+    "doc_pages": 3.05
+  },
+  {
+    "source": "2024_Group2_ex.pdf",
+    "doc_id": 2,
+    "chunk_id": 3,
+    "section": "design",
+    "doc_pages": 3.05
+  },
+  {
+    "source": "2024_Group2_ex.pdf",
+    "doc_id": 2,
+    "chunk_id": 4,
+    "section": "design",
+    "doc_pages": 3.05
+  },
+  {
+    "source": "2024_Group3_ex.pdf",
+    "doc_id": 3,
+    "chunk_id": 0,
+    "section": "design",
+    "doc_pages": 2.4
+  },
+  {
+    "source": "2024_Group3_ex.pdf",
+    "doc_id": 3,
+    "chunk_id": 1,
+    "section": "implementation",
+    "doc_pages": 2.4
+  },
+  {
+    "source": "2024_Group3_ex.pdf",
+    "doc_id": 3,
+    "chunk_id": 2,
+    "section": "requirements",
+    "doc_pages": 2.4
+  },
+  {
+    "source": "2024_Group3_ex.pdf",
+    "doc_id": 3,
+    "chunk_id": 3,
+    "section": "requirements",
+    "doc_pages": 2.4
+  },
+  {
+    "source": "2024_Group4_ex.pdf",
+    "doc_id": 4,
+    "chunk_id": 0,
+    "section": "requirements",
+    "doc_pages": 2.49
+  },
+  {
+    "source": "2024_Group4_ex.pdf",
+    "doc_id": 4,
+    "chunk_id": 1,
+    "section": "requirements",
+    "doc_pages": 2.49
+  },
+  {
+    "source": "2024_Group4_ex.pdf",
+    "doc_id": 4,
+    "chunk_id": 2,
+    "section": "requirements",
+    "doc_pages": 2.49
+  },
+  {
+    "source": "2024_Group4_ex.pdf",
+    "doc_id": 4,
+    "chunk_id": 3,
+    "section": "design",
+    "doc_pages": 2.49
+  }
+]
