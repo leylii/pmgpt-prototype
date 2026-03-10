@@ -372,7 +372,7 @@ Return:
    - `end`: scheduled finish date (YYYY-MM-DD), consistent with `duration_days`.
    - `deps`: comma-separated list of dependency IDs (from the JSON `deps` list).
    - `owner`: set to "Team".
-   - `estimate`: the `most_likely_h` (or similar effort in hours) for that task.
+   - `estimate`: the PERT expected effort in hours (`effort_hours`) for that task.
 
 3) Critical path list (ordered)
    - A plain ordered list of task names that lie on the critical path,
@@ -1652,8 +1652,8 @@ def _normalize_estimation_items(items: list, hours_per_day: float) -> list:
             duration_days = None
             effort_hours = None
         else:
-            duration_days = _pert_days(O, M, P, hours_per_day)
-            effort_hours = M
+            effort_hours = _pert_mean_hours(O, M, P)
+            duration_days = round(effort_hours / max(hours_per_day, 0.1), 3)
 
         normalized.append({
             "id": str(it.get("id", "") or "").strip(),
@@ -1700,7 +1700,7 @@ def _normalize_poker_items(items: list, sp_to_hours: float, hours_per_day: float
         sp_mid = round((sp_min + sp_max) / 2.0, 2)
         hours_estimate = round(sp_mid * sp_to_hours, 2)
         duration_days = round(
-            _pert_days(hours_estimate * 0.7, hours_estimate, hours_estimate * 1.6, hours_per_day),
+            hours_estimate / max(hours_per_day, 0.1),
             2
         )
 
@@ -2341,7 +2341,7 @@ def run_context_only_batch_estimation(slots, wbs_items, provider, model):
             "O": obj["O"],
             "M": obj["M"],
             "P": obj["P"],
-            "baseline_h": obj["M"],
+            "baseline_h": _pert_mean_hours(obj["O"], obj["M"], obj["P"]),
             "llm_rationale": obj.get("rationale", ""),
             "llm_error": "",
             "engine_used": "llm_context_only",
@@ -2428,7 +2428,7 @@ def run_evidence_batch_estimation(
             "most_likely_h": M,
             "pessimistic_h": P,
             "duration_days": _pert_days(O, M, P, hours_per_day),
-            "effort_hours": round(M, 2),
+            "effort_hours": _pert_mean_hours(O, M, P),
             "deps": deps,
             "baseline_h": base.get("baseline_h"),
             "llm_rationale": obj.get("rationale", ""),
@@ -2592,12 +2592,16 @@ def _domain_of(name: str) -> str:
             return dom
     return "implementation"
 
-
+def _pert_mean_hours(O: float, M: float, P: float) -> float:
+    return round((O + 4 * M + P) / 6.0, 2)
 
 
 def _pert_days(O: float, M: float, P: float, hours_per_day: float = 8.0) -> float:
-    pert_mean_hours = (O + 4 * M + P) / 6.0
+    pert_mean_hours = _pert_mean_hours(O, M, P)
     return round(pert_mean_hours / max(hours_per_day, 0.1), 3)
+
+
+
 
 def _hours_per_day_from_slots(slots: dict) -> float:
     hours_per_week = float(slots.get("hours_per_week", 12))
@@ -2775,7 +2779,7 @@ def render_estimation():
     evidence_capacity_summary = _compute_capacity_summary_from_rows(
         est_rows,
         ss.slots,
-        effort_key="most_likely_h",
+        effort_key="effort_hours",
     )
     ss.capacity_summary_evidence = evidence_capacity_summary
 
@@ -2785,7 +2789,7 @@ def render_estimation():
         except Exception:
             return float(default)
 
-    total_effort = sum(_safe_float(t.get("most_likely_h", 0.0)) for t in est_rows)
+    total_effort = sum(_safe_float(t.get("effort_hours", 0.0)) for t in est_rows)
     total_days = sum(_safe_float(t.get("duration_days", 0.0)) for t in est_rows)
     failed_count = sum(
         1 for t in est_rows
@@ -2846,6 +2850,10 @@ def render_estimation():
 
     st.markdown("### 2️⃣ Summary")
     st.caption("RAG-assisted estimate")
+    st.caption(
+        "Formulas: Effort (h) = (O + 4×M + P) / 6, "
+        "Duration (days) = Effort / hours_per_day"
+    )
     m1, m2, m3, m4, m5 = st.columns(5)
     m1.metric("Estimated Effort (h)", round(total_effort, 2))
     m2.metric("Estimated Days", round(total_days, 2))
@@ -2867,7 +2875,7 @@ def render_estimation():
     baseline_capacity_summary = _compute_capacity_summary_from_rows(
         ss.get("estimation_det_tasks", []),
         ss.slots,
-        effort_key="M",
+        effort_key="baseline_h",
     )
     ss.capacity_summary_baseline = baseline_capacity_summary
 
@@ -2880,7 +2888,7 @@ def render_estimation():
         else:
 
             # ----- baseline summary -----
-            det_total_effort = sum(_safe_float(t.get("M", 0.0)) for t in det_rows)
+            det_total_effort = sum(_safe_float(t.get("baseline_h", 0.0)) for t in det_rows)
 
             det_total_days = sum(
                 _safe_float(
@@ -2897,7 +2905,7 @@ def render_estimation():
             baseline_capacity_summary = _compute_capacity_summary_from_rows(
                 det_rows,
                 ss.slots,
-                effort_key="M",
+                effort_key="baseline_h",
             )
 
             st.markdown("**Baseline Summary (context-only)**")
@@ -3065,7 +3073,9 @@ def render_planning_poker():
     if "poker_json_editor_pending" not in ss:
         ss.poker_json_editor_pending = None
 
-
+    if ss.poker_json_editor_pending is not None:
+        ss.poker_json_editor = ss.poker_json_editor_pending
+        ss.poker_json_editor_pending = None
 
     poker_capacity_summary = _compute_capacity_summary_from_rows(
         poker_rows,
@@ -3138,6 +3148,11 @@ def render_planning_poker():
 
     st.markdown("### 2️⃣ Summary")
     st.caption("Planning Poker estimate")
+    st.caption(
+        "Formulas: SP midpoint = (sp_min + sp_max) / 2, "
+        "Effort (h) = SP midpoint × sp_to_hours, "
+        "Duration (days) = Effort / hours_per_day"
+    )
 
     m1, m2, m3, m4, m5 = st.columns(5)
     m1.metric("Total SP", round(total_sp_mid, 2))
@@ -3474,7 +3489,7 @@ def render_survey():
                 "ts": dt.datetime.now().isoformat()
             })
             ss.survey_submitted = True
-            st.success("Thanks!")
+
 
     with c3:
         if st.button("🔁 Restart", width="stretch"):
@@ -3502,6 +3517,8 @@ def render_survey():
             mime="application/zip",
             use_container_width=True
         )
+
+        st.success("Thanks!")
 
 
 
