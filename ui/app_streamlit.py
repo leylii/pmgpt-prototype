@@ -575,6 +575,20 @@ with st.sidebar.expander("Advanced RAG settings", expanded=False):
 
 st.sidebar.markdown("---")
 
+st.sidebar.markdown("### Quick Guide")
+
+st.sidebar.markdown("""
+**Workflow**
+
+1. Setup project  
+2. Generate WBS  
+3. Review WBS  
+4. Estimate tasks  
+5. Planning Poker  
+6. Generate Gantt  
+7. Submit survey
+""")
+
 
 # -----------------------------
 # Lazy-load RAG once
@@ -597,6 +611,7 @@ if ss.rag is None or ss.get("rag_index_dir", None) != ss.index_dir:
 # Render header + stepper
 # -----------------------------
 st.title("PMGPT – Prototype")
+
 render_stepper()
 st.divider()
 
