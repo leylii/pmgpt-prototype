@@ -3366,10 +3366,10 @@ def render_survey():
     # ✅ init flag once per session
     ss.setdefault("survey_submitted", False)
 
-    usefulness = st.slider("Usefulness", 1, 5, 3)
-    clarity = st.slider("Clarity", 1, 5, 3)
-    trust = st.slider("Trust in estimates", 1, 5, 3)
-    ease = st.slider("Ease of editing", 1, 5, 3)
+    usefulness = st.slider("Usefulness (How useful was the AI-generated output?)", 1, 5, 3)
+    clarity = st.slider("Clarity (How clear and understandable were the generated tasks?)", 1, 5, 3)
+    trust = st.slider("Trust in estimates (How realistic did the estimates seem?)", 1, 5, 3)
+    ease = st.slider("Ease of editing (How easy was it to modify the generated results?)", 1, 5, 3)
 
     # -----------------------------
     # Part 2 – Method Comparison
@@ -3383,6 +3383,16 @@ def render_survey():
             "Baseline without RAG estimation",
             "Planning Poker"
         ]
+    )
+
+    # -----------------------------
+    # Part 2.5 – Adoption
+    # -----------------------------
+    st.subheader("Adoption")
+
+    would_use = st.radio(
+        "Would you use a tool like this in a real software project?",
+        ["Yes", "Maybe", "No"]
     )
 
     # -----------------------------
@@ -3422,6 +3432,7 @@ def render_survey():
                 "clarity": clarity,
                 "trust": trust,
                 "ease": ease,
+                "would_use_tool": would_use,
 
                 "most_accurate_method": most_accurate_method,
                 "liked_about_tool": liked_about_tool,
