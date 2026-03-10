@@ -613,6 +613,37 @@ if ss.rag is None or ss.get("rag_index_dir", None) != ss.index_dir:
 st.title("PMGPT – Prototype")
 
 render_stepper()
+
+with st.expander("How to use this tool", expanded=False):
+
+    st.markdown("""
+### Instructions
+
+1. **Project Setup**  
+   Enter a **project title** and a short **project description**.  
+   You can also adjust the project settings such as lifecycle, team size, dates, and estimation parameters.
+
+2. **WBS Draft**  
+   Click **Generate WBS** to create an initial Work Breakdown Structure based on your project description.
+
+3. **WBS Review**  
+   Review the generated WBS, inspect the outline and dependencies, and edit the WBS JSON if needed before continuing.
+
+4. **PERT Estimation**  
+   Review the generated effort estimates.  
+   You may edit the estimation JSON manually before moving to the next step.
+
+5. **Planning Poker**  
+   Review the planning poker estimates and edit them if needed.
+
+6. **Gantt**  
+   Generate the schedule and review the Gantt output.  
+   You may edit the generated Gantt text before continuing.
+
+7. **Survey and Submission**  
+   Complete the feedback survey at the end.  
+   Then download the final submission file and send it by email.
+""")
 st.divider()
 
 # -----------------------------
@@ -3166,6 +3197,7 @@ def render_planning_poker():
 
 def render_gantt():
     st.header("Gantt")
+    st.caption("This schedule is generated based on the RAG-assisted PERT estimation results.")
 
     if not (ss.wbs_approved and ss.estimation_approved and ss.poker_approved):
         st.warning("Gantt is locked. Complete Planning Poker first.")
@@ -3442,7 +3474,7 @@ def render_survey():
                 "ts": dt.datetime.now().isoformat()
             })
             ss.survey_submitted = True
-            st.success("Thanks! Survey saved in session.")
+            st.success("Thanks!")
 
     with c3:
         if st.button("🔁 Restart", width="stretch"):
